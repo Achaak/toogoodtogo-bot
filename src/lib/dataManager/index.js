@@ -1,11 +1,10 @@
 import { Connect, Item } from './../../services/API'
-import Config from './../../config'
+import Config from './../../../config'
 import _ from 'lodash'
 
 class DataManager {
-  constructor({ eventEmitter, storage }) {
+  constructor({ eventEmitter }) {
     this.eventEmitter = eventEmitter
-    this.storage = storage
 
     this.access_token = null
     this.refresh_token = null
@@ -15,6 +14,7 @@ class DataManager {
     this.favoriteEnable = []
 
     this.timestamp_get_favorite = 0
+    this.timestamp_refresh_token = 0
 
     this.init()
   }
@@ -48,6 +48,11 @@ class DataManager {
       this.getFavorite()
       this.timestamp_get_favorite = timestamp
     }
+    
+    if(timestamp - this.timestamp_refresh_token > Config.api.authenticationIntervalInMS) {
+      this.refreshToken()
+      this.timestamp_refresh_token = timestamp
+    }
   }
 
   getFavorite() {
@@ -64,13 +69,44 @@ class DataManager {
     })
   }
 
+  refreshToken() {
+    Connect.refresh({refreshToken: this.refresh_token}).then(res => {
+      // Get data
+      const data = res.data
+      
+      if(res.status === 200) {
+        this.access_token = data.access_token
+        this.refresh_token = data.refresh_token
+      }
+    })
+  }
+
   formatFavorite() {
-    const _favoriteEnable = this.favorite.filter((item) => {
+    // Get favorite available
+    let _favoriteAvailable = this.favorite.filter((item) => {
       return item.items_available > 0
     })
 
-    if(!_.isEqual(_favoriteEnable, this.favoriteEnable))
-      this.eventEmitter.emit('sendMessage');
+    // Format favorite
+    _favoriteAvailable = _favoriteAvailable.map(item => {
+      return {
+        store_name: item.store.store_name,
+        items_available: item.items_available
+      }
+    })
+
+    // If favorite available change
+    if(!_.isEqual(_favoriteAvailable, this.favoriteEnable)) {
+      this.favoriteEnable = _favoriteAvailable
+
+      // Format message
+      let messageFormated = _favoriteAvailable.map(item => {
+        return `${item.store_name}: ${item.items_available}`
+      })
+      messageFormated = messageFormated.join('\n')
+
+      this.eventEmitter.emit('favoriteAvailable', messageFormated);
+    }
   }
 
   // Loop functeventn

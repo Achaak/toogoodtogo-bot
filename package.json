@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec babel-node App.js"
+    "start": "nodemon --exec babel-node src/App.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.20.0",
     "express": "^4.17.1",
+    "node-notifier": "^8.0.0",
     "node-persist": "^3.1.0",
     "node-storage": "0.0.9",
     "nodemon": "^2.0.4",

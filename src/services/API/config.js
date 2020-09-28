@@ -1,5 +1,5 @@
 import axios from "axios";
-import config from "./../../config"
+import config from "./../../../config"
 
 const api = axios.create({
   baseURL: 'https://apptoogoodtogo.com/api/',

@@ -4,8 +4,8 @@ const getFavorite = ({userId, accessToken}) =>
   api.post("item/v5/", {
     favorites_only: true,
     origin: {
-      latitude: 52.5170365,
-      longitude: 13.3888599,
+      latitude: 48.85332,
+      longitude: 2.34885
     },
     radius: 200,
     user_id: userId,

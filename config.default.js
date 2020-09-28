@@ -11,13 +11,12 @@ export default {
     "authenticationIntervalInMS": 3600000
   },
   "notifications": {
-    /*"console": {
-      "enabled": true,
-      "clear": true
+    "console": {
+      "enabled": false,
     },
     "desktop": {
       "enabled": false
-    },*/
+    },
     "telegram": {
       "enabled": false,
       "bot_token": "BOT TOKEN"
