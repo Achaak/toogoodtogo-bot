@@ -6,4 +6,4 @@ const server = http.createServer()
 // Start core
 const Core = new core()
 
-server.listen(8080)
+server.listen(process.env.PORT)
