@@ -8,7 +8,10 @@ Download and install the latest Node.js version:
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 sudo apt install -y nodejs
 ```
-Clone the repository and check out the master branch: git clone https://github.com/Achaak/toogoodtogo-bot.git
+Clone the repository and check out the master branch: 
+```
+git clone https://github.com/Achaak/toogoodtogo-bot.git
+```
 
 Enter the repository:
 ```
