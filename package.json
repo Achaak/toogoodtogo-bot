@@ -1,7 +1,7 @@
 {
   "name": "toogoodtogo-bot",
   "version": "1.0.0",
-  "description": "Machin is a tool to warn you about the availability of your favorite stores. This one will warn you thanks to Telegram or Window notifications.",
+  "description": "TooGooToGo-Bot is a tool to warn you about the availability of your favorite stores. This one will warn you thanks to Telegram or Window notifications.",
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec babel-node src/App.js"

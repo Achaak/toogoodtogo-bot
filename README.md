@@ -1,5 +1,5 @@
 # TooGooToGo-Bot
-Machin is a tool to warn you about the availability of your favorite stores.
+TooGooToGo-Bot is a tool to warn you about the availability of your favorite stores.
 This one will warn you thanks to Telegram or Window notifications.
 
 ## Installation
