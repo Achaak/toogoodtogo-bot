@@ -34,13 +34,22 @@ npm run start
 ```
 
 ## Configuring Telegram notifications
-Open a Telegram chat with BotFather and click the /start command.
+1. Open a Telegram chat with BotFather and click the **/start** command.
 
-Select the command /newbot and follow the instruction.
+2. Select the command **/newbot** and follow the instruction.
 
-After created the bot. Take the token access and put in the config file.
+3. After created the bot. Take the token access and put in the config file.
 
-Your bot is now ready. Multiple user can use it to get your favorite stocks avalaible.
+4. Your bot is now ready. Multiple user can use it to get your favorite stocks avalaible.
+
+5. Now, to start the notifications, send **/start** in your bot's conversation.
+
+### Commands
+```js
+/start // Starts Telegram notifications
+/stop  // Stops Telegram notifications
+/help  // Gives usable commands
+```
 
 ## PM2 configuration
 PM2 will allow you to install the bot on a server and be notified 24/7.
