@@ -1,7 +1,14 @@
+import { EventEmitter } from 'events';
 import notifier  from 'node-notifier'
 
+type DesktopType = {
+  eventEmitter: EventEmitter
+}
+
 class Desktop {
-  constructor({ eventEmitter }) {
+  eventEmitter: EventEmitter
+
+  constructor({ eventEmitter }: DesktopType) {
     this.eventEmitter = eventEmitter
 
     this.init()
@@ -15,7 +22,7 @@ class Desktop {
     this.eventEmitter.on('favoriteAvailable', this.sendFavoriteAvailableMessage.bind(this));
   }
 
-  sendFavoriteAvailableMessage(data) {
+  sendFavoriteAvailableMessage(data: string) {
     notifier.notify({
       title: 'New stocks available',
       message: data

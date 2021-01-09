@@ -1,3 +1,15 @@
 /.storage
 /node_modules
-/config.js
+/config/config.js
+/dist
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

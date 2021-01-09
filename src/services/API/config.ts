@@ -1,5 +1,5 @@
 import axios from "axios";
-import config from "./../../../config"
+import config from "./../../../config/config"
 
 const api = axios.create({
   baseURL: 'https://apptoogoodtogo.com/api/',
@@ -10,8 +10,7 @@ const api = axios.create({
     Accept: "application/json",
     "Accept-Language": "en-US",
   },
-  responseType: "json",
-  resolveBodyOnly: true,
+  responseType: "json"
 });
 
 export {

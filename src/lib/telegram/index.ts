@@ -1,9 +1,28 @@
-import { Connect, Item } from './../../services/API'
-import Config from './../../../config'
-import Telegraf from 'telegraf'
+import Config from './../../../config/config'
+import { Context, Telegraf } from 'telegraf'
+import { EventEmitter } from 'events'
+// @ts-ignore
+import Storage from 'node-storage'
+import { Chat } from 'telegraf/typings/telegram-types'
+
+interface MyContext extends Context {
+  
+}
+
+type TelegramType = {
+  eventEmitter: EventEmitter
+  storage: Storage
+}
 
 class Telegram {
-  constructor({ eventEmitter, storage }) {
+  eventEmitter: EventEmitter
+  storage: Storage
+
+  bot: Telegraf<MyContext>
+  isStarted: boolean
+  chatsId: number[]
+
+  constructor({ eventEmitter, storage }: TelegramType) {
     this.eventEmitter = eventEmitter
     this.storage = storage
     
@@ -23,6 +42,8 @@ class Telegram {
   initTelegramBot() {
     // Start
     this.bot.start((ctx) => {
+      if(!ctx.chat) return
+
       this.isStarted = true
 
       this.setChatId(ctx.chat)
@@ -33,6 +54,8 @@ class Telegram {
 
     // Stop
     this.bot.command('stop', (ctx) => {
+      if(!ctx.chat) return
+
       this.isStarted = false
 
       this.removeChatId(ctx.chat)
@@ -55,7 +78,7 @@ class Telegram {
     this.chatsId = await this.storage.get('chatsId') || []
   }
 
-  async setChatId(chat) {
+  async setChatId(chat: Chat) {
     if(!this.chatsId.includes(chat.id)) {
       this.chatsId.push(chat.id)
 
@@ -66,7 +89,7 @@ class Telegram {
     }
   }
 
-  async removeChatId(chat) {
+  async removeChatId(chat: Chat) {
     this.chatsId = this.chatsId.filter(item => item !== chat.id)
 
     console.log("----------")
@@ -75,7 +98,7 @@ class Telegram {
     await this.storage.put('chatsId', this.chatsId)
   }
 
-  sendMessage(data) {
+  sendMessage(data: string) {
     for (let i = 0; i < this.chatsId.length; i++) {
       const chatId = this.chatsId[i];
       

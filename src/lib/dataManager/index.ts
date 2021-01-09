@@ -1,14 +1,53 @@
-import { Connect, Item } from './../../services/API'
-import Config from './../../../config'
-import _ from 'lodash'
+import { connect, getFavorite, refresh, /*Item*/ } from './../../services/API'
+import Config from './../../../config/config'
+import isEqual from 'lodash.isequal'
+import { EventEmitter } from 'events'
+
+type  DataManagerType = {
+  eventEmitter: EventEmitter
+}
 
 class DataManager {
-  constructor({ eventEmitter }) {
+  eventEmitter: EventEmitter
+
+  access_token: string | null
+  refresh_token: string | null
+  user: {
+    user_id: number
+  } | null
+
+  lastRender: number | undefined
+  loopFlag: boolean
+
+  favorite: {
+    store: {
+      store_name: string
+      store_location: {
+        address: {
+          address_line: string
+        }
+      }
+    },
+    items_available: number
+  }[]
+
+  favoriteEnable: {
+    store_name: string
+    items_available: number
+  }[]
+
+  timestamp_get_favorite: number
+  timestamp_refresh_token: number
+
+  constructor({ eventEmitter }: DataManagerType) {
     this.eventEmitter = eventEmitter
 
     this.access_token = null
     this.refresh_token = null
     this.user = null
+
+    this.lastRender = undefined
+    this.loopFlag = false
 
     this.favorite = []
     this.favoriteEnable = []
@@ -24,9 +63,11 @@ class DataManager {
   }
 
   connect() {
-    Connect.connect().then(res => {
+    connect().then(res => {
       // Get data
       const data = res.data
+
+      console.log("Your are connected.")
       
       if(res.status === 200) {
         this.access_token = data.access_token
@@ -36,11 +77,13 @@ class DataManager {
         // Start the loop
         this.startLoop()
       }
+    }).catch(() => {
+      console.log("Your email or password is incorrect.")
     })
   }
 
   // Update functeventn of the loop
-  update(progress) {
+  update() {
     // Defined functeventn
     var timestamp = new Date().getTime();
 
@@ -56,7 +99,10 @@ class DataManager {
   }
 
   getFavorite() {
-    Item.getFavorite({userId: this.user.user_id, accessToken: this.access_token}).then(res => {
+    if(!this.access_token) return
+    if(!this.user) return
+
+    getFavorite({userId: this.user.user_id, accessToken: this.access_token}).then(res => {
       // Get data
       const data = res.data
       
@@ -70,7 +116,9 @@ class DataManager {
   }
 
   refreshToken() {
-    Connect.refresh({refreshToken: this.refresh_token}).then(res => {
+    if(!this.refresh_token) return 
+
+    refresh({refreshToken: this.refresh_token}).then(res => {
       // Get data
       const data = res.data
       
@@ -83,12 +131,9 @@ class DataManager {
 
   formatFavorite() {
     // Get favorite available
-    let _favoriteAvailable = this.favorite.filter((item) => {
+    const _favoriteAvailable = [...this.favorite].filter((item) => {
       return item.items_available > 0
-    })
-
-    // Format favorite
-    _favoriteAvailable = _favoriteAvailable.map(item => {
+    }).map(item => {
       return {
         store_name: item.store.store_name,
         items_available: item.items_available
@@ -96,24 +141,21 @@ class DataManager {
     })
 
     // If favorite available change
-    if(!_.isEqual(_favoriteAvailable, this.favoriteEnable)) {
+    if(!isEqual(_favoriteAvailable, this.favoriteEnable)) {
       this.favoriteEnable = _favoriteAvailable
 
       // Format message
       let messageFormated = _favoriteAvailable.map(item => {
         return `${item.store_name}: ${item.items_available}`
       })
-      messageFormated = messageFormated.join('\n')
 
-      this.eventEmitter.emit('favoriteAvailable', messageFormated);
+      this.eventEmitter.emit('favoriteAvailable', messageFormated.join('\n'));
     }
   }
 
   // Loop functeventn
   loop(timestamp = new Date().getTime()) {
-    var progress = (timestamp - this.lastRender);
-
-    this.update(progress);
+    this.update();
     
     this.lastRender = timestamp;
     

@@ -1,6 +1,6 @@
 import { api } from "./config"
 
-const getFavorite = ({userId, accessToken}) =>
+const getFavorite = ({userId, accessToken}: { userId: number, accessToken: string }) =>
   api.post("item/v5/", {
     favorites_only: true,
     origin: {
@@ -11,10 +11,9 @@ const getFavorite = ({userId, accessToken}) =>
     user_id: userId,
   }, {
     headers: { Authorization: `Bearer ${accessToken}` },
-    validateStatus: false
   })
 
-export default {
+export {
   getFavorite,
 }
 

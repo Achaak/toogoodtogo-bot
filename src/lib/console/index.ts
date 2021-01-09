@@ -1,5 +1,13 @@
+import { EventEmitter } from "events";
+
+type ConsoleType = {
+  eventEmitter: EventEmitter
+}
+
 class Console {
-  constructor({ eventEmitter }) {
+  eventEmitter: EventEmitter
+  
+  constructor({ eventEmitter }: ConsoleType) {
     this.eventEmitter = eventEmitter
 
     this.init()
@@ -13,7 +21,7 @@ class Console {
     this.eventEmitter.on('favoriteAvailable', this.sendMessage.bind(this));
   }
 
-  sendMessage(data) {
+  sendMessage(data: string) {
     console.log("----------")
     console.log(data)
   }
