@@ -19,7 +19,7 @@ class Desktop {
   }
 
   initEvent() {
-    this.eventEmitter.on('favoriteAvailable', this.sendFavoriteAvailableMessage.bind(this));
+    this.eventEmitter.on('favorite-notification', this.sendFavoriteAvailableMessage.bind(this));
   }
 
   sendFavoriteAvailableMessage(data: string) {

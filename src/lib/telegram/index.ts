@@ -71,7 +71,7 @@ class Telegram {
   }
 
   initEvent() {
-    this.eventEmitter.on('favoriteAvailable', this.sendMessage.bind(this));
+    this.eventEmitter.on('favorite-notification', this.sendMessage.bind(this));
   }
 
   async initStorage() {

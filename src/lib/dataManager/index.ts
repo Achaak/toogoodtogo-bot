@@ -10,6 +10,8 @@ type  DataManagerType = {
 class DataManager {
   eventEmitter: EventEmitter
 
+  firstLoad: boolean
+
   access_token: string | null
   refresh_token: string | null
   user: {
@@ -21,6 +23,7 @@ class DataManager {
 
   favorite: {
     store: {
+      store_id: string
       store_name: string
       store_location: {
         address: {
@@ -31,7 +34,14 @@ class DataManager {
     items_available: number
   }[]
 
-  favoriteEnable: {
+  favoriteAvailable: {
+    store_id: string
+    store_name: string
+    items_available: number
+  }[]
+
+  favoriteEmpty: {
+    store_id: string
     store_name: string
     items_available: number
   }[]
@@ -41,6 +51,8 @@ class DataManager {
 
   constructor({ eventEmitter }: DataManagerType) {
     this.eventEmitter = eventEmitter
+    
+    this.firstLoad = true
 
     this.access_token = null
     this.refresh_token = null
@@ -50,7 +62,8 @@ class DataManager {
     this.loopFlag = false
 
     this.favorite = []
-    this.favoriteEnable = []
+    this.favoriteAvailable = []
+    this.favoriteEmpty = []
 
     this.timestamp_get_favorite = 0
     this.timestamp_refresh_token = 0
@@ -132,25 +145,60 @@ class DataManager {
   formatFavorite() {
     // Get favorite available
     const _favoriteAvailable = [...this.favorite].filter((item) => {
-      return item.items_available > 0
+      return item.items_available !== 0
     }).map(item => {
       return {
+        store_id: item.store.store_id,
+        store_name: item.store.store_name,
+        items_available: item.items_available
+      }
+    })
+    
+    // Get favorite for message
+    const _favoriteNotification = [...this.favorite].filter((item) => {
+      if(
+        (item.items_available === 0 && this.favoriteEmpty.some(item2 => item.store.store_name === item2.store_name)) || 
+        (item.items_available === 0 && this.firstLoad)
+      ) {
+        return false
+      } else {
+        return true
+      }
+    }).map(item => {
+      return {
+        store_id: item.store.store_id,
+        store_name: item.store.store_name,
+        items_available: item.items_available
+      }
+    })
+
+    // Get new favorite empty
+    const _favoriteEmpty = [...this.favorite].filter((item) => {
+      return item.items_available === 0
+    }).map(item => {
+      return {
+        store_id: item.store.store_id,
         store_name: item.store.store_name,
         items_available: item.items_available
       }
     })
 
     // If favorite available change
-    if(!isEqual(_favoriteAvailable, this.favoriteEnable)) {
-      this.favoriteEnable = _favoriteAvailable
+    if(!isEqual(_favoriteAvailable, this.favoriteAvailable)) {
+      this.favoriteAvailable = _favoriteAvailable
 
       // Format message
-      let messageFormated = _favoriteAvailable.map(item => {
+      let messageFormated = _favoriteNotification.map(item => {
         return `${item.store_name}: ${item.items_available}`
       })
 
-      this.eventEmitter.emit('favoriteAvailable', messageFormated.join('\n'));
+      this.eventEmitter.emit('favorite-notification', messageFormated.join('\n'));
     }
+
+    // Set favorite empty
+    this.favoriteEmpty = _favoriteEmpty
+
+    this.firstLoad = false
   }
 
   // Loop functeventn
