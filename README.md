@@ -64,6 +64,9 @@ Start the server
 pm2 start start.sh
 ```
 
+## Change log
+[https://github.com/Achaak/toogoodtogo-bot/blob/master/CHANGELOG.md](https://github.com/Achaak/toogoodtogo-bot/blob/master/CHANGELOG.md)
+
 
 ## Credit
 https://github.com/marklagendijk/node-toogoodtogo-watcher
