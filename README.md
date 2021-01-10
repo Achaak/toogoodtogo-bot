@@ -25,7 +25,7 @@ npm install
 
 Make a copy of the config sample file and insert your parameters: 
 ```
-cp config.default.js config.js
+cd config && cp config.default.js config.js
 ```
 
 Start the application:
