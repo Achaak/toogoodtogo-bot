@@ -19,8 +19,10 @@ cd toogoodtogo-bot/
 ```
 
 Install the application:
-```
+```js
 npm install
+// or
+yarn
 ```
 
 Make a copy of the config sample file and insert your parameters: 
@@ -29,9 +31,24 @@ cd config && cp config.default.js config.js
 ```
 
 Start the application:
-```
+```js
 npm run start
+// or
+yarn start
 ```
+
+## Update
+Get new files
+```
+git pull
+```
+Install new modules
+```js
+npm install
+// or
+yarn
+```
+
 
 ## Configuring Telegram notifications
 1. Open a Telegram chat with BotFather and click the **/start** command.
