@@ -1,7 +1,7 @@
 import { api } from "./config"
 
 const getFavorite = ({userId, accessToken}: { userId: number, accessToken: string }) =>
-  api.post("item/v5/", {
+  api.post("item/v6/", {
     favorites_only: true,
     origin: {
       latitude: 48.85332,
