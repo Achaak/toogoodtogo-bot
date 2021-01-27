@@ -18,6 +18,11 @@ Enter the repository:
 cd toogoodtogo-bot/
 ```
 
+Build the project
+```
+npm run build
+```
+
 Install the application:
 ```js
 npm install
@@ -47,6 +52,10 @@ Install new modules
 npm install
 // or
 yarn
+```
+Rebuild the project
+```
+npm run build
 ```
 
 
