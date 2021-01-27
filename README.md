@@ -19,8 +19,10 @@ cd toogoodtogo-bot/
 ```
 
 Build the project
-```
+```js
 npm run build
+// or
+yarn build
 ```
 
 Install the application:
@@ -54,8 +56,10 @@ npm install
 yarn
 ```
 Rebuild the project
-```
+```js
 npm run build
+// or
+yarn build
 ```
 
 
