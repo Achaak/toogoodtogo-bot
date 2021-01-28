@@ -18,11 +18,14 @@ Enter the repository:
 cd toogoodtogo-bot/
 ```
 
-Build the project
-```js
-npm run build
-// or
-yarn build
+Make a copy of the config sample file and insert your parameters: 
+```
+cd config && cp config.default.js config.js
+```
+
+Return at the root
+```
+cd ..
 ```
 
 Install the application:
@@ -32,9 +35,11 @@ npm install
 yarn
 ```
 
-Make a copy of the config sample file and insert your parameters: 
-```
-cd config && cp config.default.js config.js
+Build the project
+```js
+npm run build
+// or
+yarn build
 ```
 
 Start the application:
