@@ -8,6 +8,7 @@ import Config from "./../../../config/config.js";
 import isEqual from "lodash.isequal";
 import { EventEmitter } from "events";
 import { getData, setData } from "./../../store/datastore.js";
+import { Favorite } from "src/types/favorite.js";
 
 type DataManagerType = {
   eventEmitter: EventEmitter;
@@ -25,18 +26,7 @@ class DataManager {
   lastRender: number | undefined;
   loopFlag: boolean;
 
-  favorite: {
-    store: {
-      store_id: string;
-      store_name: string;
-      store_location: {
-        address: {
-          address_line: string;
-        };
-      };
-    };
-    items_available: number;
-  }[];
+  favorite: Favorite[];
 
   favoriteAvailable: {
     store_id: string;
@@ -81,6 +71,8 @@ class DataManager {
     if (!this.access_token || !this.refresh_token || !this.userId) {
       this.authByEmail();
     }
+
+    this.startLoop();
   }
 
   getStore() {
@@ -195,8 +187,8 @@ class DataManager {
         // Get data
         const data = res.body;
         if (res.statusCode === 200) {
-          console.log(data, "getFavorite");
-          //this.favorite = data.items;
+          this.favorite = data.items;
+
           // Format all favorite
           this.formatFavorite();
         }
@@ -214,9 +206,10 @@ class DataManager {
       // Get data
       const data = res.body;
       if (res.statusCode === 200) {
-        console.log(data, "refreshToken");
-        //   this.access_token = data.access_token;
-        //   this.refresh_token = data.refresh_token;
+        this.setAuth({
+          access_token: data.access_token,
+          refresh_token: data.refresh_token,
+        });
       }
     });
   }
