@@ -1,18 +1,24 @@
-import axios from "axios";
-import config from "./../../../config/config"
+import { gotScraping } from "got-scraping";
+import Config from "./../../../config/config.js";
 
-const api = axios.create({
-  baseURL: 'https://apptoogoodtogo.com/api/',
-  timeout: 1000,
+export const api = gotScraping.extend({
+  prefixUrl: "https://apptoogoodtogo.com/api/",
   headers: {
-    "User-Agent": config.api.headers["User-Agent"],
+    "User-Agent": Config.api.headers["User-Agent"],
     "Content-Type": "application/json",
-    Accept: "application/json",
+    Accept: "",
     "Accept-Language": "en-US",
   },
-  responseType: "json"
+  responseType: "json",
+  // @ts-ignore
+  headerGeneratorOptions: {
+    browsers: [
+      {
+        name: "safari",
+      },
+    ],
+    devices: ["mobile"],
+    locales: ["en-US"],
+    operatingSystems: ["ios"],
+  },
 });
-
-export {
-  api
-}

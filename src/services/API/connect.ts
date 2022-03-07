@@ -1,20 +1,39 @@
+import { api } from "./config.js";
+import Config from "./../../../config/config.js";
 
-import { api } from "./config"
-import config from "./../../../config/config"
+export const authByEmail = () =>
+  api.post<{
+    polling_id: string;
+  }>("auth/v3/authByEmail", {
+    json: {
+      device_type: "IOS",
+      email: Config.api.credentials.email,
+    },
+  });
 
-const connect = () =>
-  api.post("auth/v1/loginByEmail", {
-    "device_type": "UNKNOWN",
-    "email": config.api.credentials.email,
-    "password": config.api.credentials.password
-  })
+export const authByRequestPollingId = ({
+  polling_id,
+}: {
+  polling_id: string;
+}) =>
+  api.post<{
+    access_token: string;
+    refresh_token: string;
+    startup_data: { user: { user_id: number } };
+  }>("auth/v3/authByRequestPollingId", {
+    json: {
+      device_type: "IOS",
+      email: Config.api.credentials.email,
+      request_polling_id: polling_id,
+    },
+  });
 
-const refresh = ({ refreshToken }: { refreshToken: string }) =>
-  api.post("auth/v1/token/refresh", {
-    refresh_token: refreshToken,
-  })
-
-export {
-  connect,
-  refresh
-}
+export const refresh = ({ refreshToken }: { refreshToken: string }) =>
+  api.post<{
+    access_token: string;
+    refresh_token: string;
+  }>("auth/v3/token/refresh", {
+    json: {
+      refresh_token: refreshToken,
+    },
+  });
