@@ -18,10 +18,6 @@
     "incremental": true,
     "outDir": "dist",
     "baseUrl": ".",
-    "paths": {
-      "@src/*": ["src/*"],
-      "@config/*": ["config/*"]
-    }
   },
   "include": [
     "**/*.ts",

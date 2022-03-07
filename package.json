@@ -23,14 +23,16 @@
     "got": "^12.0.1",
     "lodash.isequal": "^4.5.0",
     "module-alias": "^2.2.2",
+    "nconf": "^0.11.3",
     "node-notifier": "^9.0.0",
     "node-storage": "0.0.9",
     "nodemon": "^2.0.4",
     "telegraf": "^3.38.0"
   },
   "devDependencies": {
+    "@types/nconf": "^0.10.2",
     "@types/lodash.isequal": "^4.5.5",
-    "@types/node": "^14.14.20",
+    "@types/node": "^17.0.21",
     "@types/node-notifier": "^8.0.0",
     "ts-node": "^9.1.1",
     "tslint": "^6.1.3",

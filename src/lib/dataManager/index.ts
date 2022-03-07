@@ -7,6 +7,7 @@ import {
 import Config from "./../../../config/config.js";
 import isEqual from "lodash.isequal";
 import { EventEmitter } from "events";
+import { getData, setData } from "./../../store/datastore.js";
 
 type DataManagerType = {
   eventEmitter: EventEmitter;
@@ -19,7 +20,6 @@ class DataManager {
 
   access_token: string | null;
   refresh_token: string | null;
-  polling_id: string | null;
   userId: number | null;
 
   lastRender: number | undefined;
@@ -61,7 +61,6 @@ class DataManager {
     this.access_token = null;
     this.refresh_token = null;
     this.userId = null;
-    this.polling_id = null;
 
     this.lastRender = undefined;
     this.loopFlag = false;
@@ -77,7 +76,40 @@ class DataManager {
   }
 
   async init() {
-    this.authByEmail();
+    this.getStore();
+
+    if (!this.access_token || !this.refresh_token || !this.userId) {
+      this.authByEmail();
+    }
+  }
+
+  getStore() {
+    this.access_token = getData("access_token");
+    this.refresh_token = getData("refresh_token");
+    this.userId = getData("userId");
+  }
+
+  setAuth({
+    access_token,
+    refresh_token,
+    userId,
+  }: {
+    access_token?: string;
+    refresh_token?: string;
+    userId?: number;
+  }) {
+    if (access_token) {
+      this.access_token = access_token;
+      setData("access_token", access_token);
+    }
+    if (refresh_token) {
+      this.refresh_token = refresh_token;
+      setData("refresh_token", refresh_token);
+    }
+    if (userId) {
+      this.userId = userId;
+      setData("userId", userId);
+    }
   }
 
   // Auth by email (send polling id by email)
@@ -86,17 +118,14 @@ class DataManager {
       .then((res) => {
         // Get data
         const data = res.body;
-        console.log(data);
 
         if (res.statusCode === 200) {
-          this.polling_id = data.polling_id;
-
           console.log(
             "Press enter to continue when you have clicked on the link in your email."
           );
           var stdin = process.openStdin();
-          stdin.addListener("data", (d) => {
-            this.authByRequestPollingId();
+          stdin.addListener("data", () => {
+            this.authByRequestPollingId(data.polling_id);
           });
         }
       })
@@ -107,19 +136,19 @@ class DataManager {
   }
 
   // Send polling id to API
-  authByRequestPollingId() {
-    if (!this.polling_id) return;
-
+  authByRequestPollingId(polling_id: string) {
     APIAuthByRequestPollingId({
-      polling_id: this.polling_id,
+      polling_id: polling_id,
     })
       .then((res) => {
         // Get data
         const data = res.body;
         if (res.statusCode === 200) {
-          this.access_token = data.access_token;
-          this.refresh_token = data.refresh_token;
-          this.userId = data.startup_data.user.user_id;
+          this.setAuth({
+            access_token: data.access_token,
+            refresh_token: data.refresh_token,
+            userId: data.startup_data.user.user_id,
+          });
           console.log("You are connected.");
 
           // Start the loop
