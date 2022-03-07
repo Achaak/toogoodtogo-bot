@@ -1,27 +1,23 @@
 import Config from "./../../../config/config.js";
 import { Context, Telegraf } from "telegraf";
 import { EventEmitter } from "events";
-// @ts-ignore
-import Storage from "node-storage";
+import { getData, setData } from "./../../store/datastore.js";
 
 interface MyContext extends Context {}
 
 type TelegramType = {
   eventEmitter: EventEmitter;
-  storage: Storage;
 };
 
 class Telegram {
   eventEmitter: EventEmitter;
-  storage: Storage;
 
   bot: Telegraf<MyContext>;
   isStarted: boolean;
   chatsId: number[];
 
-  constructor({ eventEmitter, storage }: TelegramType) {
+  constructor({ eventEmitter }: TelegramType) {
     this.eventEmitter = eventEmitter;
-    this.storage = storage;
 
     this.bot = new Telegraf(Config.notifications.telegram.bot_token);
     this.isStarted = false;
@@ -43,12 +39,12 @@ class Telegram {
 
       this.isStarted = true;
 
-      this.setChatId(ctx.chat);
+      this.setChatId(ctx);
 
       // Reply
-      // ctx.reply(
-      //   `Welcome ${ctx.chat.first_name} !\nDon't worry, I'll let you know if there are new stocks. :)`
-      // );
+      ctx.reply(
+        `Welcome ${ctx.from?.first_name} !\nDon't worry, I'll let you know if there are new stocks. :)`
+      );
     });
 
     // Stop
@@ -57,12 +53,12 @@ class Telegram {
 
       this.isStarted = false;
 
-      this.removeChatId(ctx.chat);
+      this.removeChatId(ctx);
 
       // Reply
-      // ctx.reply(
-      //   `Bye ${ctx.chat.first_name} !\nI remain available if you need me.\n/start - If you want to receive the new stocks available.`
-      // );
+      ctx.reply(
+        `Bye ${ctx.from?.first_name} !\nI remain available if you need me.\n/start - If you want to receive the new stocks available.`
+      );
     });
 
     // Help
@@ -80,27 +76,31 @@ class Telegram {
   }
 
   async initStorage() {
-    this.chatsId = (await this.storage.get("chatsId")) || [];
+    this.chatsId = (await getData("chatsId")) || [];
   }
 
-  async setChatId(chat: any) {
-    if (!this.chatsId.includes(chat.id)) {
-      this.chatsId.push(chat.id);
+  async setChatId(ctx: MyContext) {
+    if (ctx.from?.id && !this.chatsId.includes(ctx.from?.id)) {
+      this.chatsId.push(ctx.from?.id);
 
       console.log("----------");
-      // console.log(`New user: ${chat.first_name} ${chat.last_name || ""}`);
+      console.log(
+        `New user: ${ctx.from?.first_name} ${ctx.from?.last_name || ""}`
+      );
 
-      await this.storage.put("chatsId", this.chatsId);
+      await setData("chatsId", this.chatsId);
     }
   }
 
-  async removeChatId(chat: any) {
-    this.chatsId = this.chatsId.filter((item) => item !== chat.id);
+  async removeChatId(ctx: MyContext) {
+    this.chatsId = this.chatsId.filter((item) => item !== ctx.from?.id);
 
     console.log("----------");
-    // console.log(`User left: ${chat.first_name} ${chat.last_name || ""}`);
+    console.log(
+      `User left: ${ctx.from?.first_name} ${ctx.from?.last_name || ""}`
+    );
 
-    await this.storage.put("chatsId", this.chatsId);
+    await setData("chatsId", this.chatsId);
   }
 
   sendMessage(data: string) {

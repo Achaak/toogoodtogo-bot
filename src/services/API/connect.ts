@@ -29,7 +29,10 @@ export const authByRequestPollingId = ({
   });
 
 export const refresh = ({ refreshToken }: { refreshToken: string }) =>
-  api.post("auth/v3/token/refresh", {
+  api.post<{
+    access_token: string;
+    refresh_token: string;
+  }>("auth/v3/token/refresh", {
     json: {
       refresh_token: refreshToken,
     },
