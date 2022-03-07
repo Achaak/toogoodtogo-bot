@@ -2,7 +2,8 @@
   "name": "toogoodtogo-bot",
   "version": "1.1.0",
   "description": "TooGooToGo-Bot is a tool to warn you about the availability of your favorite stores. This one will warn you thanks to Telegram or Window notifications.",
-  "main": "dist/src/index.js",
+  "exports": "./dist/src/index.js",
+  "type": "module",
   "scripts": {
     "start": "ts-node ./dist/src/index.js",
     "build": "tsc",
@@ -19,7 +20,7 @@
   "homepage": "https://github.com/Achaak/toogoodtogo-bot#readme",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.21.1",
+    "got": "^12.0.1",
     "lodash.isequal": "^4.5.0",
     "module-alias": "^2.2.2",
     "node-notifier": "^9.0.0",

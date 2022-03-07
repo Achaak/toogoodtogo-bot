@@ -1,19 +1,23 @@
-import { api } from "./config"
+import { api } from "./config.js";
 
-const getFavorite = ({userId, accessToken}: { userId: number, accessToken: string }) =>
-  api.post("item/v6/", {
-    favorites_only: true,
-    origin: {
-      latitude: 48.85332,
-      longitude: 2.34885
+export const getFavorite = ({
+  userId,
+  accessToken,
+}: {
+  userId: number;
+  accessToken: string;
+}) =>
+  api.post("item/v7/", {
+    json: {
+      favorites_only: true,
+      origin: {
+        latitude: 48.85332,
+        longitude: 2.34885,
+      },
+      radius: 200,
+      user_id: userId,
     },
-    radius: 200,
-    user_id: userId,
-  }, {
-    headers: { Authorization: `Bearer ${accessToken}` },
-  })
-
-export {
-  getFavorite,
-}
-
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });

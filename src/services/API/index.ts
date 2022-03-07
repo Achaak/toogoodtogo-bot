@@ -1,8 +1,2 @@
-import { connect, refresh } from './connect'
-import {getFavorite} from './item'
-
-export {
-  connect,
-  refresh,
-  getFavorite,
-}
+export * from "./connect.js";
+export * from "./item.js";
