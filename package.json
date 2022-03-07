@@ -26,7 +26,6 @@
     "module-alias": "^2.2.2",
     "nconf": "^0.11.3",
     "node-notifier": "^10.0.1",
-    "node-storage": "0.0.9",
     "nodemon": "^2.0.4",
     "telegraf": "^4.7.0"
   },
