@@ -83,7 +83,7 @@ class Telegram {
     if (ctx.from?.id && !this.chatsId.includes(ctx.from?.id)) {
       this.chatsId.push(ctx.from?.id);
 
-      console.log("----------");
+      console.log("--------------------");
       console.log(
         `New user: ${ctx.from?.first_name} ${ctx.from?.last_name || ""}`
       );
@@ -95,7 +95,7 @@ class Telegram {
   async removeChatId(ctx: MyContext) {
     this.chatsId = this.chatsId.filter((item) => item !== ctx.from?.id);
 
-    console.log("----------");
+    console.log("--------------------");
     console.log(
       `User left: ${ctx.from?.first_name} ${ctx.from?.last_name || ""}`
     );

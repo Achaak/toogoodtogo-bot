@@ -12,6 +12,7 @@ export default {
   },
   notifications: {
     console: {
+      clear: true,
       enabled: false,
     },
     desktop: {

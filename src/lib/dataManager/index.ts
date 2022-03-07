@@ -27,18 +27,8 @@ class DataManager {
   loopFlag: boolean;
 
   favorite: Favorite[];
-
-  favoriteAvailable: {
-    store_id: string;
-    store_name: string;
-    items_available: number;
-  }[];
-
-  favoriteEmpty: {
-    store_id: string;
-    store_name: string;
-    items_available: number;
-  }[];
+  favoriteAvailable: string[];
+  favoriteEmpty: string[];
 
   timestamp_get_favorite: number;
   timestamp_refresh_token: number;
@@ -216,61 +206,45 @@ class DataManager {
 
   formatFavorite() {
     // Get favorite available
-    const _favoriteAvailable = [...this.favorite]
+    const favoriteAvailable = [...this.favorite]
       .filter((item) => {
         return item.items_available !== 0;
       })
-      .map((item) => {
-        return {
-          store_id: item.store.store_id,
-          store_name: item.store.store_name,
-          items_available: item.items_available,
-        };
-      });
+      .map((item) => item.store.store_id);
 
     // Get favorite for message
-    const _favoriteNotification = [...this.favorite]
-      .filter((item) => {
+    const favoriteNotification = [...this.favorite]
+      .filter((fn) => {
         if (
-          (item.items_available === 0 &&
-            this.favoriteEmpty.some(
-              (item2) => item.store.store_name === item2.store_name
-            )) ||
-          (item.items_available === 0 && this.firstLoad)
+          (fn.items_available === 0 &&
+            this.favoriteEmpty.some((fe) => fe === fn.store.store_id)) ||
+          (fn.items_available === 0 && this.firstLoad)
         ) {
           return false;
         } else {
           return true;
         }
       })
-      .map((item) => {
-        return {
-          store_id: item.store.store_id,
-          store_name: item.store.store_name,
-          items_available: item.items_available,
-        };
-      });
+      .map((item) => item.store.store_id);
 
     // Get new favorite empty
     const _favoriteEmpty = [...this.favorite]
       .filter((item) => {
         return item.items_available === 0;
       })
-      .map((item) => {
-        return {
-          store_id: item.store.store_id,
-          store_name: item.store.store_name,
-          items_available: item.items_available,
-        };
-      });
+      .map((item) => item.store.store_id);
 
     // If favorite available change
-    if (!isEqual(_favoriteAvailable, this.favoriteAvailable)) {
-      this.favoriteAvailable = _favoriteAvailable;
+    if (!isEqual(favoriteAvailable, this.favoriteAvailable)) {
+      this.favoriteAvailable = favoriteAvailable;
 
       // Format message
-      let messageFormated = _favoriteNotification.map((item) => {
-        return `${item.store_name}: ${item.items_available}`;
+      let messageFormated = favoriteNotification.map((item) => {
+        const store = this.favorite.find((fn) => fn.store.store_id === item);
+
+        if (store) {
+          return `${store.store.store_name}: ${store.items_available}`;
+        }
       });
 
       this.eventEmitter.emit(
