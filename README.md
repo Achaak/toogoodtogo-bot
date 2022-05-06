@@ -99,6 +99,13 @@ Start the server
 pm2 start start.sh
 ```
 
+After you logged
+```
+pm2 ls # to see process_id
+pm2 attach your_process_id
+# press enter to submit your registration
+```
+
 ## Change log
 [https://github.com/Achaak/toogoodtogo-bot/blob/master/CHANGELOG.md](https://github.com/Achaak/toogoodtogo-bot/blob/master/CHANGELOG.md)
 
