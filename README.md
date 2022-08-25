@@ -14,28 +14,7 @@ Enter the repository:
 ```
 cd toogoodtogo-bot/
 ```
-Create Dockerfile or use one in repository:
-```
-touch Dockerfile
-```
-Edit Dockerfile with desired text editor (nano in my case):
-```
-nano Dockerfile
-```
-Paste folowing and save file:
-```
-FROM node:16-alpine
-WORKDIR /app
 
-# Copy and download dependencies
-COPY package.json yarn.lock ./
-RUN yarn --frozen-lockfile
-
-# Copy sources into image
-COPY . .
-EXPOSE 3000
-CMD yarn start
-```
 Rename and edit configuration file:
 ```
 cd config/
