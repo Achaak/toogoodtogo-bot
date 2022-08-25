@@ -49,13 +49,14 @@ Build image:
 ```
 docker build . -t <your desired username>/togoodtogobot
 ```
+
+
+## Running Docker container
+
 Deploy image:
 ```
 docker run -p 3000:3000 -d <your desired username>/togoodtogobot
 ```
-
-## Running Docker container
-
 
 
 
