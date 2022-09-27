@@ -2,43 +2,6 @@
 TooGooToGo-Bot is a tool to warn you about the availability of your favorite stores.
 This one will warn you thanks to Telegram or Window notifications.
 
-## Forked with ❤️ for running in container
-This fork contains Dockerfile which adds ability to run bot in Docker Container. 
-
-## Building Docker image
-Clone the repository and check out the master branch: 
-```
-git clone https://github.com/Achaak/toogoodtogo-bot.git
-```
-Enter the repository:
-```
-cd toogoodtogo-bot/
-```
-
-Rename and edit configuration file:
-```
-cd config/
-
-mv config.default.js config.js
-
-nano config.js
-```
-
-Build image:
-```
-docker build . -t <your desired username>/togoodtogobot
-```
-
-
-## Running Docker container
-
-Run image:
-```
-docker run -p 3000:3000 -d <your desired username>/togoodtogobot
-```
-
-
-
 ## Installation
 Download and install the latest Node.js version:
 ```
@@ -102,6 +65,17 @@ Rebuild the project
 npm run build
 // or
 yarn build
+```
+
+## Run with Docker
+Build image:
+```
+docker build . -t <your desired username>/togoodtogobot
+```
+
+Run image:
+```
+docker run -p 3000:3000 -d <your desired username>/togoodtogobot
 ```
 
 
