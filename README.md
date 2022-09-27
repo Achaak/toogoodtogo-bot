@@ -67,6 +67,17 @@ npm run build
 yarn build
 ```
 
+## Run with Docker
+Build image:
+```
+docker build . -t <your desired username>/togoodtogobot
+```
+
+Run image:
+```
+docker run -p 3000:3000 -d <your desired username>/togoodtogobot
+```
+
 
 ## Configuring Telegram notifications
 1. Open a Telegram chat with BotFather and click the **/start** command.
