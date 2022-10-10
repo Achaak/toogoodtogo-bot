@@ -1,6 +1,6 @@
 import { clear } from "console";
 import { EventEmitter } from "events";
-import Config from "./../../../config/config.js";
+import Config from "../../../config/config.js";
 
 type ConsoleType = {
   eventEmitter: EventEmitter;

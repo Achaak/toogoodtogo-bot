@@ -30,22 +30,16 @@ cd ..
 
 Install the application:
 ```js
-npm install
-// or
 yarn
 ```
 
 Build the project
 ```js
-npm run build
-// or
 yarn build
 ```
 
 Start the application:
 ```js
-npm run start
-// or
 yarn start
 ```
 
@@ -56,14 +50,10 @@ git pull
 ```
 Install new modules
 ```js
-npm install
-// or
 yarn
 ```
 Rebuild the project
 ```js
-npm run build
-// or
 yarn build
 ```
 

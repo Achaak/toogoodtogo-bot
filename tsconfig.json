@@ -1,27 +1,30 @@
 {
   "compilerOptions": {
     "module": "ESNext",
-    "target": "ES2015",    
+    "target": "ES2015",
     "lib": ["ES6"],
-    "moduleResolution": "node",              
-    "allowJs": true,
-    "strict": true,         
-    "noImplicitAny": true,
+    "composite": false,
+    "inlineSources": false,
+    "isolatedModules": true,
+    "noUnusedParameters": false,
+    "preserveWatchOutput": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",         
+    // "allowJs": true,
+    "strict": true,
+    "noImplicitAny": false,
     "esModuleInterop": true,
-    "resolveJsonModule": false,
-    "allowSyntheticDefaultImports": true,
-    "removeComments": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "typeRoots": [
       "node_modules/@types"
     ],
-    "incremental": true,
     "outDir": "dist",
     "baseUrl": ".",
+    "rootDir": ".",
   },
   "include": [
     "**/*.ts",
-    "."
   ],
   "exclude": [
     "node_modules", 

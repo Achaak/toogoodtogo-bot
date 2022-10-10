@@ -4,7 +4,7 @@ import {
   getFavorite,
   refresh,
 } from "./../../services/API/index.js";
-import Config from "./../../../config/config.js";
+import Config from "../../../config/config.js";
 import isEqual from "lodash.isequal";
 import { EventEmitter } from "events";
 import { getData, setData } from "./../../store/datastore.js";
@@ -33,6 +33,8 @@ class DataManager {
   timestamp_get_favorite: number;
   timestamp_refresh_token: number;
 
+  interval: NodeJS.Timeout | null;
+
   constructor({ eventEmitter }: DataManagerType) {
     this.eventEmitter = eventEmitter;
 
@@ -51,6 +53,8 @@ class DataManager {
 
     this.timestamp_get_favorite = 0;
     this.timestamp_refresh_token = 0;
+
+    this.interval = null;
 
     this.init();
   }
@@ -102,13 +106,14 @@ class DataManager {
         const data = res.body;
 
         if (res.statusCode === 200) {
-          console.log(
-            "Press enter to continue when you have clicked on the link in your email."
-          );
-          var stdin = process.openStdin();
-          stdin.addListener("data", () => {
+          console.log("Click on the link in your email.");
+
+          this.interval = setInterval(() => {
             this.authByRequestPollingId(data.polling_id);
-          });
+          }, 10000);
+        } else {
+          console.log("Error authByEmail");
+          console.log(data);
         }
       })
       .catch((e) => {
@@ -126,6 +131,8 @@ class DataManager {
         // Get data
         const data = res.body;
         if (res.statusCode === 200) {
+          this.interval && clearInterval(this.interval);
+
           this.setAuth({
             access_token: data.access_token,
             refresh_token: data.refresh_token,
@@ -135,6 +142,11 @@ class DataManager {
 
           // Start the loop
           this.startLoop();
+        } else if (res.statusCode === 202) {
+          console.log("Click on the link in your email.");
+        } else {
+          console.log("Error authByRequestPollingId");
+          console.log("Hello", res.statusCode);
         }
       })
       .catch((e) => {

@@ -1,4 +1,4 @@
-import Config from "./../../../config/config.js";
+import Config from "../../../config/config.js";
 import { Context, Telegraf } from "telegraf";
 import { EventEmitter } from "events";
 import { getData, setData } from "./../../store/datastore.js";

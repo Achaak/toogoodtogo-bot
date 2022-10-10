@@ -1,5 +1,5 @@
 import { gotScraping } from "got-scraping";
-import Config from "./../../../config/config.js";
+import Config from "../../../config/config.js";
 
 export const api = gotScraping.extend({
   prefixUrl: "https://apptoogoodtogo.com/api/",

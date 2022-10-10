@@ -1,5 +1,5 @@
 import { api } from "./config.js";
-import Config from "./../../../config/config.js";
+import Config from "../../../config/config.js";
 
 export const authByEmail = () =>
   api.post<{

@@ -3,7 +3,7 @@ import Telegram from "./../lib/telegram/index.js";
 import Console from "./../lib/console/index.js";
 import Desktop from "./../lib/desktop/index.js";
 import { EventEmitter } from "events";
-import Config from "./../../config/config.js";
+import Config from "../../config/config.js";
 
 class Core {
   eventEmitter: EventEmitter | null;
