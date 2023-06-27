@@ -35,7 +35,6 @@ export const refresh = ({ refreshToken }: { refreshToken: string }) =>
     refresh_token: string;
   }>(REFRESH_ENDPOINT, {
     json: {
-      device_type: DEVICE_TYPE,
       refresh_token: refreshToken,
     },
   });
