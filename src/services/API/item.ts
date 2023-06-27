@@ -17,6 +17,7 @@ export const getFavorite = ({
       },
       radius: 200,
       user_id: userId,
+      device_type: "ANDROID",
     },
     headers: {
       Authorization: `Bearer ${accessToken}`,
