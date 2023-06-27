@@ -1,5 +1,5 @@
 import { Favorite } from "./../../types/favorite.js";
-import { api } from "./config.js";
+import { API_ITEM_ENDPOINT, DEVICE_TYPE, api } from "./config.js";
 
 export const getFavorite = ({
   userId,
@@ -8,7 +8,7 @@ export const getFavorite = ({
   userId: number;
   accessToken: string;
 }) =>
-  api.post<{ items: Favorite[] }>("item/v8/", {
+  api.post<{ items: Favorite[] }>(API_ITEM_ENDPOINT, {
     json: {
       favorites_only: true,
       origin: {
@@ -17,7 +17,7 @@ export const getFavorite = ({
       },
       radius: 200,
       user_id: userId,
-      device_type: "ANDROID",
+      device_type: DEVICE_TYPE,
     },
     headers: {
       Authorization: `Bearer ${accessToken}`,
