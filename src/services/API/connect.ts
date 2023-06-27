@@ -1,5 +1,5 @@
 import { api } from "./config.js";
-import Config from "../../../config/config.js";
+import { env } from './../../env/server.js';
 
 export const authByEmail = () =>
   api.post<{
@@ -7,7 +7,7 @@ export const authByEmail = () =>
   }>("auth/v3/authByEmail", {
     json: {
       device_type: "IOS",
-      email: Config.api.credentials.email,
+      email: env.CREDENTIAL_EMAIL,
     },
   });
 
@@ -23,7 +23,7 @@ export const authByRequestPollingId = ({
   }>("auth/v3/authByRequestPollingId", {
     json: {
       device_type: "IOS",
-      email: Config.api.credentials.email,
+      email: env.CREDENTIAL_EMAIL,
       request_polling_id: polling_id,
     },
   });

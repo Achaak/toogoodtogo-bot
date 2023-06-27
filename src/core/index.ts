@@ -3,7 +3,7 @@ import Telegram from "./../lib/telegram/index.js";
 import Console from "./../lib/console/index.js";
 import Desktop from "./../lib/desktop/index.js";
 import { EventEmitter } from "events";
-import Config from "../../config/config.js";
+import { env } from "./../env/server.js";
 
 class Core {
   eventEmitter: EventEmitter | null;
@@ -31,13 +31,13 @@ class Core {
 
     this.dataManager = new DataManager({ eventEmitter: this.eventEmitter });
 
-    if (Config.notifications.telegram.enabled)
+    if (env.NOTIFICATIONS_TELEGRAM_ENABLED === "true")
       this.telegram = new Telegram({ eventEmitter: this.eventEmitter });
 
-    if (Config.notifications.console.enabled)
+    if (env.NOTIFICATIONS_CONSOLE_ENABLED === "true")
       this.console = new Console({ eventEmitter: this.eventEmitter });
 
-    if (Config.notifications.desktop.enabled)
+    if (env.NOTIFICATIONS_DESKTOP_ENABLED === "true")
       this.desktop = new Desktop({ eventEmitter: this.eventEmitter });
   }
 }

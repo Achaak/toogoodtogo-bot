@@ -1,4 +1,4 @@
-import { Favorite } from "src/types/favorite.js";
+import { Favorite } from "./../../types/favorite.js";
 import { api } from "./config.js";
 
 export const getFavorite = ({
@@ -8,7 +8,7 @@ export const getFavorite = ({
   userId: number;
   accessToken: string;
 }) =>
-  api.post<{ items: Favorite[] }>("item/v7/", {
+  api.post<{ items: Favorite[] }>("item/v8/", {
     json: {
       favorites_only: true,
       origin: {

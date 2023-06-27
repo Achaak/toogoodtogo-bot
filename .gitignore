@@ -1,6 +1,5 @@
-/.storage
 /node_modules
-/config/config.js
+/store
 /dist
 
 # debug

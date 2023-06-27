@@ -4,11 +4,11 @@ import {
   getFavorite,
   refresh,
 } from "./../../services/API/index.js";
-import Config from "../../../config/config.js";
 import isEqual from "lodash.isequal";
 import { EventEmitter } from "events";
 import { getData, setData } from "./../../store/datastore.js";
-import { Favorite } from "src/types/favorite.js";
+import { Favorite } from "./../../types/favorite.js";
+import { env } from "./../../env/server.js";
 
 type DataManagerType = {
   eventEmitter: EventEmitter;
@@ -60,7 +60,7 @@ class DataManager {
   }
 
   async init() {
-    this.getStore();
+    await this.getStore();
 
     if (!this.access_token || !this.refresh_token || !this.userId) {
       this.authByEmail();
@@ -69,13 +69,13 @@ class DataManager {
     this.startLoop();
   }
 
-  getStore() {
-    this.access_token = getData("access_token");
-    this.refresh_token = getData("refresh_token");
-    this.userId = getData("userId");
+  async getStore() {
+    this.access_token = await getData("access_token");
+    this.refresh_token = await getData("refresh_token");
+    this.userId = await getData("userId");
   }
 
-  setAuth({
+  async setAuth({
     access_token,
     refresh_token,
     userId,
@@ -86,15 +86,15 @@ class DataManager {
   }) {
     if (access_token) {
       this.access_token = access_token;
-      setData("access_token", access_token);
+      await setData("access_token", access_token);
     }
     if (refresh_token) {
       this.refresh_token = refresh_token;
-      setData("refresh_token", refresh_token);
+      await setData("refresh_token", refresh_token);
     }
     if (userId) {
       this.userId = userId;
-      setData("userId", userId);
+      await setData("userId", userId);
     }
   }
 
@@ -146,7 +146,6 @@ class DataManager {
           console.log("Click on the link in your email.");
         } else {
           console.log("Error authByRequestPollingId");
-          console.log("Hello", res.statusCode);
         }
       })
       .catch((e) => {
@@ -162,7 +161,7 @@ class DataManager {
 
     if (
       timestamp - this.timestamp_get_favorite >
-      Config.api.pollingIntervalInMs
+      parseInt(env.POLLING_INTERVAL_IN_MS)
     ) {
       this.getFavorite();
       this.timestamp_get_favorite = timestamp;
@@ -170,7 +169,7 @@ class DataManager {
 
     if (
       timestamp - this.timestamp_refresh_token >
-      Config.api.authenticationIntervalInMS
+      parseInt(env.AUTHENTICATION_INTERVAL_IN_MS)
     ) {
       this.refreshToken();
       this.timestamp_refresh_token = timestamp;
@@ -188,6 +187,7 @@ class DataManager {
       .then((res) => {
         // Get data
         const data = res.body;
+        console.log('getFavorite 2', res)
         if (res.statusCode === 200) {
           this.favorite = data.items;
 

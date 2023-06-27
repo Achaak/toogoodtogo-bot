@@ -1,9 +1,9 @@
-import Config from "../../../config/config.js";
 import { Context, Telegraf } from "telegraf";
 import { EventEmitter } from "events";
 import { getData, setData } from "./../../store/datastore.js";
+import { env } from "./../../env/server.js";
 
-interface MyContext extends Context {}
+interface MyContext extends Context { }
 
 type TelegramType = {
   eventEmitter: EventEmitter;
@@ -19,7 +19,7 @@ class Telegram {
   constructor({ eventEmitter }: TelegramType) {
     this.eventEmitter = eventEmitter;
 
-    this.bot = new Telegraf(Config.notifications.telegram.bot_token);
+    this.bot = new Telegraf(env.NOTIFICATIONS_TELEGRAM_BOT_TOKEN);
     this.isStarted = false;
     this.chatsId = [];
 
