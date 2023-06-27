@@ -3,6 +3,7 @@ import { env } from './../../env/server.js';
 
 export const authByEmail = () =>
   api.post<{
+    state: string;
     polling_id: string;
   }>("auth/v3/authByEmail", {
     json: {

@@ -187,7 +187,7 @@ class DataManager {
       .then((res) => {
         // Get data
         const data = res.body;
-        console.log('getFavorite 2', res)
+        console.log('getFavorite 2', data)
         if (res.statusCode === 200) {
           this.favorite = data.items;
 

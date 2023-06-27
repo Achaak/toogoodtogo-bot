@@ -11,7 +11,6 @@ export const api = gotScraping.extend({
     "Accept-Encoding": "gzip",
   },
   responseType: "json",
-  resolveBodyOnly: true,
   // @ts-ignore
   headerGeneratorOptions: {
     browsers: [
