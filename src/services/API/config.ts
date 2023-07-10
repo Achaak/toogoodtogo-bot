@@ -1,4 +1,5 @@
 import { gotScraping } from "got-scraping";
+import { CookieJar } from "tough-cookie"
 
 export const BASE_URL = 'https://apptoogoodtogo.com/api/';
 export const API_ITEM_ENDPOINT = 'item/v8/';
@@ -8,7 +9,10 @@ export const REFRESH_ENDPOINT = 'auth/v3/token/refresh';
 export const USER_AGENT = "TooGoodToGo/21.9.0 (813) (iPhone/iPhone 7 (GSM); iOS 15.1; Scale/2.00)";
 export const DEVICE_TYPE = "IOS";
 
+const cookieJar = new CookieJar();
+
 export const api = gotScraping.extend({
+  cookieJar,
   prefixUrl: BASE_URL,
   headers: {
     "User-Agent": USER_AGENT,
