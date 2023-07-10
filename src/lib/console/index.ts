@@ -1,6 +1,6 @@
 import { clear } from "console";
 import { EventEmitter } from "events";
-import Config from "../../../config/config.js";
+import { env } from "./../../env/server.js";
 
 type ConsoleType = {
   eventEmitter: EventEmitter;
@@ -24,7 +24,7 @@ class Console {
   }
 
   sendMessage(data: string) {
-    if (Config.notifications.console.clear) {
+    if (env.NOTIFICATIONS_CONSOLE_CLEAR === "true") {
       clear();
     } else {
       console.log("--------------------");
