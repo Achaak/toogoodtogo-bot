@@ -21,7 +21,6 @@ class DataManager {
 
   access_token: string | null;
   refresh_token: string | null;
-  cookie: string | string[] | null;
   userId: number | null;
 
   lastRender: number | undefined;
@@ -43,7 +42,6 @@ class DataManager {
 
     this.access_token = null;
     this.refresh_token = null;
-    this.cookie = null;
     this.userId = null;
 
     this.lastRender = undefined;
@@ -81,12 +79,10 @@ class DataManager {
     access_token,
     refresh_token,
     userId,
-    cookie,
   }: {
     access_token?: string;
     refresh_token?: string;
     userId?: number;
-    cookie?: string | string[];
   }) {
     if (access_token) {
       this.access_token = access_token;
@@ -99,10 +95,6 @@ class DataManager {
     if (userId) {
       this.userId = userId;
       await setData("userId", userId);
-    }
-    if (cookie) {
-      this.cookie = cookie;
-      await setData("cookie", cookie);
     }
   }
 
@@ -145,7 +137,6 @@ class DataManager {
             access_token: data.access_token,
             refresh_token: data.refresh_token,
             userId: data.startup_data.user.user_id,
-            cookie: res.headers["Set-Cookie"],
           });
           console.log("You are connected.");
 
@@ -220,7 +211,6 @@ class DataManager {
         this.setAuth({
           access_token: data.access_token,
           refresh_token: data.refresh_token,
-          cookie: res.headers["Set-Cookie"],
         });
       }
     });
