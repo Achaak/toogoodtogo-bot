@@ -156,7 +156,6 @@ class DataManager {
 
   // Update function of the loop
   update() {
-    // Defined functeventn
     var timestamp = new Date().getTime();
 
     if (
@@ -251,7 +250,7 @@ class DataManager {
       this.favoriteAvailable = favoriteAvailable;
 
       // Format message
-      let messageFormated = favoriteNotification.map((item) => {
+      let messageFormatted = favoriteNotification.map((item) => {
         const store = this.favorite.find((fn) => fn.store.store_id === item);
 
         if (store) {
@@ -259,10 +258,12 @@ class DataManager {
         }
       });
 
-      this.eventEmitter.emit(
-        "favorite-notification",
-        messageFormated.join("\n")
-      );
+      if (messageFormatted.length !== 0) {
+        this.eventEmitter.emit(
+          "favorite-notification",
+          messageFormatted.join("\n")
+        );
+      }
     }
 
     // Set favorite empty
@@ -271,7 +272,7 @@ class DataManager {
     this.firstLoad = false;
   }
 
-  // Loop functeventn
+  // Loop function event
   loop(timestamp = new Date().getTime()) {
     this.update();
 
