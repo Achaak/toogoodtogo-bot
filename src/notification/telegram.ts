@@ -99,16 +99,20 @@ export class Telegram {
   private sendNewFavoriteAvailable(notification: Notification) {
     for (const chatId of this.chatsId) {
       for (const item of notification.data) {
-        void this.bot.telegram.sendMessage(
-          chatId,
-          `<b>${item.display_name}</b>\nAvailable: ${item.items_available}\n${formatCurrency(
-            item.item.price_including_taxes.decimals,
-            item.item.price_including_taxes.code
-          )}\n${formatPickupInterval(item.pickup_interval)}`,
-          {
-            parse_mode: 'HTML',
-          }
-        );
+        void this.bot.telegram
+          .sendMessage(
+            chatId,
+            `<b>${item.display_name}</b>\nAvailable: ${item.items_available}\n${formatCurrency(
+              item.item.price_including_taxes.decimals,
+              item.item.price_including_taxes.code
+            )}\n${formatPickupInterval(item.pickup_interval)}`,
+            {
+              parse_mode: 'HTML',
+            }
+          )
+          .catch((error) => {
+            console.error(error);
+          });
       }
     }
   }

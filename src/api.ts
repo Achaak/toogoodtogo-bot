@@ -33,7 +33,12 @@ class APIClient {
 
     const apk = await fetch(
       'https://play.google.com/store/apps/details?id=com.app.tgtg&hl=en&gl=US'
-    ).then((res) => res.text());
+    )
+      .then((res) => res.text())
+      .catch((err) => {
+        console.log('Error fetching APK version', err);
+        return '';
+      });
     const regExp =
       /AF_initDataCallback\({key:\s*'ds:5'.*? data:([\s\S]*?), sideChannel:.+<\/script/gm;
 
