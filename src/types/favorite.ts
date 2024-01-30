@@ -1,10 +1,10 @@
-export interface Favorite {
+export interface ItemFavorite {
   item: Item;
   store: Store;
   display_name: string;
   pickup_interval: PickupInterval;
   pickup_location: Location;
-  purchase_end: Date;
+  purchase_end: string;
   items_available: number;
   distance: number;
   favorite: boolean;
@@ -28,7 +28,7 @@ export interface Item {
   description: string;
   can_user_supply_packaging: boolean;
   packaging_option: string;
-  diet_categories: any[];
+  diet_categories: unknown[];
   item_category: string;
   badges: Badge[];
   positive_rating_reasons: string[];
@@ -69,8 +69,8 @@ export interface SalesTax {
 }
 
 export interface PickupInterval {
-  start: Date;
-  end: Date;
+  start: string;
+  end: string;
 }
 
 export interface Location {

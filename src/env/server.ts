@@ -2,12 +2,13 @@ import { serverSchema } from './schema.js';
 import dotenv from 'dotenv';
 dotenv.config({
   path: '.env.local',
-})
+});
 
 const _serverEnv = serverSchema.safeParse(process.env);
 
 export const formatErrors = (
   /** @type {import('zod').ZodFormattedError<Map<string,string>,string>} */
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
   errors: import('zod').ZodFormattedError<Map<string, string>, string>
 ) =>
   Object.entries(errors)

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "ESNext",
-    "target": "ES2015",
+    "target": "es2022",
     "lib": ["ES6"],
     "composite": false,
     "inlineSources": false,
@@ -10,24 +10,17 @@
     "preserveWatchOutput": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",         
+    "moduleResolution": "node",
     // "allowJs": true,
     "strict": true,
     "noImplicitAny": false,
     "esModuleInterop": true,
     "noUnusedLocals": false,
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "typeRoots": ["node_modules/@types"],
     "outDir": "dist",
     "baseUrl": ".",
     "rootDir": ".",
   },
-  "include": [
-    "**/*.ts",
-  ],
-  "exclude": [
-    "node_modules", 
-    "dist", 
-  ],
+  "include": ["**/*.ts", "**/*.cjs", "**/*.js", ".eslintrc.cjs"],
+  "exclude": ["node_modules", "dist"],
 }

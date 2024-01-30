@@ -2,5 +2,5 @@
   "watch": ["src", "config"],
   "ext": ".ts,.js",
   "ignore": [],
-  "exec": "yarn build && yarn start"
+  "exec": "pnpm build && pnpm start"
 }
