@@ -1,12 +1,6 @@
 # TooGooToGo-Bot
 TooGooToGo-Bot is a tool designed to help you stay informed about the availability of your favorite stores on the Too Good To Go platform. It sends notifications, allowing you to quickly find and purchase food products before they disappear.
 
-Works with the following notifications:
-- Telegram
-- Discord
-- Desktop
-- Console
-
 ## Table of Contents
 - [Installation](#installation)
 - [Update](#update)
