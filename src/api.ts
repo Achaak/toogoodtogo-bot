@@ -135,9 +135,12 @@ class APIClient {
         device_type: DEVICE_TYPE,
         email: env.CREDENTIAL_EMAIL,
       },
+    }).catch((err) => {
+      console.log('Error login by email', err);
+      return null;
     });
 
-    if (!res.ok) {
+    if (!res?.ok) {
       throw new Error('Error login by email');
     }
 
@@ -156,9 +159,12 @@ class APIClient {
         email: env.CREDENTIAL_EMAIL,
         request_polling_id: pollingId,
       },
+    }).catch((err) => {
+      console.log('Error auth polling', err);
+      return null;
     });
 
-    if (!res.ok) {
+    if (!res?.ok) {
       throw new Error('Error auth polling');
     }
 
@@ -184,9 +190,12 @@ class APIClient {
       body: {
         refresh_token: refreshToken,
       },
+    }).catch((err) => {
+      console.log('Error refresh token', err);
+      return null;
     });
 
-    if (!res.ok) {
+    if (!res?.ok) {
       throw new Error('Error refresh token');
     }
 
@@ -219,9 +228,12 @@ class APIClient {
         radius: 20,
         user_id: userId,
       },
+    }).catch((err) => {
+      console.log('Error get items', err);
+      return null;
     });
 
-    if (!res.ok) {
+    if (!res?.ok) {
       throw new Error('Error get items');
     }
 

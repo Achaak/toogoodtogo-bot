@@ -9,7 +9,6 @@ type MyContext = Context;
 
 export class Telegram {
   private bot: Telegraf = new Telegraf(env.NOTIFICATIONS_TELEGRAM_BOT_TOKEN);
-  private isStarted = false;
   private chatsId: number[] = [];
 
   constructor() {
@@ -31,39 +30,55 @@ export class Telegram {
 
   private async initTelegramBot() {
     // Start
-    this.bot.start(async (ctx) => {
-      if (!ctx.chat) return;
+    this.bot
+      .start(async (ctx) => {
+        if (!ctx.chat) return;
 
-      this.isStarted = true;
+        await this.setChatId(ctx);
 
-      await this.setChatId(ctx);
-
-      // Reply
-      await ctx.reply(
-        `Welcome ${ctx.from?.first_name} !\nDon't worry, I'll let you know if there are new stocks. :)`
-      );
-    });
+        // Reply
+        await ctx
+          .reply(
+            `Welcome ${ctx.from?.first_name} !\nDon't worry, I'll let you know if there are new stocks. :)`
+          )
+          .catch((error) => {
+            console.error(error);
+          });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 
     // Stop
-    this.bot.command('stop', async (ctx) => {
-      if (!ctx.chat) return;
+    this.bot
+      .command('stop', async (ctx) => {
+        if (!ctx.chat) return;
 
-      this.isStarted = false;
+        await this.removeChatId(ctx);
 
-      await this.removeChatId(ctx);
-
-      // Reply
-      await ctx.reply(
-        `Bye ${ctx.from?.first_name} !\nI remain available if you need me.\n/start - If you want to receive the new stocks available.`
-      );
-    });
+        // Reply
+        await ctx
+          .reply(
+            `Bye ${ctx.from?.first_name} !\nI remain available if you need me.\n/start - If you want to receive the new stocks available.`
+          )
+          .catch((error) => {
+            console.error(error);
+          });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 
     // Help
-    this.bot.help((ctx) =>
-      ctx.reply(
-        '/start - If you want to receive the new stocks available.\n/stop - If you want to stop receiving new stocks available.'
+    this.bot
+      .help((ctx) =>
+        ctx.reply(
+          '/start - If you want to receive the new stocks available.\n/stop - If you want to stop receiving new stocks available.'
+        )
       )
-    );
+      .catch((error) => {
+        console.error(error);
+      });
 
     await this.bot.launch();
   }
