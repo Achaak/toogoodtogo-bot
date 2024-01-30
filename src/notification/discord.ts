@@ -37,6 +37,7 @@ export class Discord {
                 {
                   name: 'Price',
                   value: formatCurrency(
+                    item.item.price_including_taxes.minor_units,
                     item.item.price_including_taxes.decimals,
                     item.item.price_including_taxes.code
                   ),

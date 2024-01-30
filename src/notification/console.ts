@@ -22,6 +22,7 @@ export class Console {
           item.display_name,
           item.items_available.toString(),
           formatCurrency(
+            item.item.price_including_taxes.minor_units,
             item.item.price_including_taxes.decimals,
             item.item.price_including_taxes.code
           ),

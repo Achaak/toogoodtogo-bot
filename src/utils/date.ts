@@ -3,9 +3,12 @@ import { env } from '../env/server.js';
 const hourFormatter = new Intl.DateTimeFormat(env.LOCALE, {
   hour: 'numeric',
   minute: 'numeric',
+  timeZone: env.TIMEZONE,
 });
 
-const dayFormatter = new Intl.DateTimeFormat(env.LOCALE, {});
+const dayFormatter = new Intl.DateTimeFormat(env.LOCALE, {
+  timeZone: env.TIMEZONE,
+});
 
 export const formatPickupInterval = ({
   start,

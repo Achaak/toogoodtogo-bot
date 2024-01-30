@@ -17,4 +17,5 @@ export const serverSchema = z.object({
   NOTIFICATIONS_DISCORD_ENABLED: z.string(),
   NOTIFICATIONS_DISCORD_WEBHOOK_URL: z.string(),
   LOCALE: z.string(),
+  TIMEZONE: z.string(),
 });

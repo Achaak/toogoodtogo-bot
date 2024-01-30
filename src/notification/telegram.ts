@@ -118,6 +118,7 @@ export class Telegram {
           .sendMessage(
             chatId,
             `<b>${item.display_name}</b>\nAvailable: ${item.items_available}\n${formatCurrency(
+              item.item.price_including_taxes.minor_units,
               item.item.price_including_taxes.decimals,
               item.item.price_including_taxes.code
             )}\n${formatPickupInterval(item.pickup_interval)}`,
