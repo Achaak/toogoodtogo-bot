@@ -136,7 +136,7 @@ class APIClient {
         email: env.CREDENTIAL_EMAIL,
       },
     }).catch((err) => {
-      console.log('Error login by email', JSON.stringify(err, null, 2));
+      console.log('Error login by email', err);
       return null;
     });
 
@@ -160,7 +160,7 @@ class APIClient {
         request_polling_id: pollingId,
       },
     }).catch((err) => {
-      console.log('Error auth polling', JSON.stringify(err, null, 2));
+      console.log('Error auth polling', err);
       return null;
     });
 
@@ -191,7 +191,7 @@ class APIClient {
         refresh_token: refreshToken,
       },
     }).catch((err) => {
-      console.log('Error refresh token', JSON.stringify(err, null, 2));
+      console.log('Error refresh token', err);
       return null;
     });
 
@@ -229,7 +229,7 @@ class APIClient {
         user_id: userId,
       },
     }).catch((err) => {
-      console.log('Error get items', JSON.stringify(err, null, 2));
+      console.log('Error get items', err);
       return null;
     });
 
