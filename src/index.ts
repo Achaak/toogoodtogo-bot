@@ -205,7 +205,7 @@ export class Core {
       newFavoriteEmpty.length > 0 ||
       newFavoriteAvailable.length > 0 ||
       favoriteUpdated.length > 0 ||
-      this.favorite.length === items.length
+      this.favorite.length !== items.length
     ) {
       this.sendNotification({
         type: 'allFavorite',
