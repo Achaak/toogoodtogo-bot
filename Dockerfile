@@ -2,7 +2,8 @@ FROM node:16-alpine
 WORKDIR /app
 # Copy and download dependencies
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm --frozen-lockfile
+RUN corepack enable
+RUN pnpm i
 
 # Copy sources into image
 COPY . .
